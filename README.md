@@ -1,59 +1,48 @@
-# BrianHubWeb
+# Brian Hub Web
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.1.
+Angular 20 single-page application that consumes the Brian Hub API to display the public portfolio and run the project admin console.
 
-## Development server
+## Tech Stack
 
-To start a local development server, run:
+- Angular 20 (standalone components)
+- TypeScript 5.8
+- RxJS 7
 
-```bash
-ng serve
-```
+## Prerequisites
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Node.js 20+
+- npm 10+
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Getting Started
 
 ```bash
-ng generate --help
+cd brian-hub-web
+npm install
+npm start
 ```
 
-## Building
+The dev server listens on `http://localhost:4200` and reloads automatically. Ensure the API is running on `http://localhost:8080` or update the environment configuration accordingly.
 
-To build the project run:
+## Environment Configuration
 
-```bash
-ng build
-```
+| File | Purpose | Default API |
+|------|---------|-------------|
+| `src/environments/environment.ts` | Local development | `http://localhost:8080/api` |
+| `src/environments/environment.prod.ts` | Production build | `https://<your-api-host>/api` |
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+When deploying the frontend to a different origin, add that origin to the backend property `app.cors.allowed-origins`.
 
-## Running unit tests
+## Available Scripts
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+- `npm start` – `ng serve` with live reload.
+- `npm run build` – Production build artifacts in `dist/`.
+- `npm run test` – Unit tests via Karma/Jasmine.
 
-```bash
-ng test
-```
+## Key Modules
 
-## Running end-to-end tests
+- `src/app/services/projects.ts` – Public project feed client.
+- `src/app/services/admin-projects.ts` – Admin CRUD client that injects HTTP Basic credentials.
+- `src/app/pages/portfolio` – Portfolio listing with incremental loading.
+- `src/app/pages/admin` – Basic admin dashboard for project management.
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+> Blog admin endpoints are now exposed by the API. Extend the SPA with new services/forms when you're ready to manage posts from the browser.

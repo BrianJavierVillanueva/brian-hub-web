@@ -1,0 +1,74 @@
+<section class="portfolio-page" id="portfolio" revealOnScroll [revealDirection]="'down'">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Portfolio</p>
+      <h1>Mis proyectos destacados</h1>
+      <p class="lede">
+        Selección de proyectos que construyo mientras estudio en 42 Málaga y el
+        CPIFP Alan Turing. Busco mi primer rol como desarrollador.
+      </p>
+    </div>
+  </header>
+
+  <div *ngIf="loading" class="skeleton-grid">
+    <div class="skeleton-card" *ngFor="let _ of [1, 2, 3]"></div>
+  </div>
+
+  <div *ngIf="error" class="error-banner">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && !error" class="projects-grid">
+    <article
+      *ngFor="let project of displayedProjects; let i = index"
+      class="project-card"
+      [revealOnScroll]="(i * 0.05) + 's'"
+      [revealDirection]="i % 2 === 0 ? 'left' : 'right'"
+    >
+      <div class="top-row">
+        <div class="project-header">
+          <div>
+            <h2>{{ project.title }}</h2>
+            <p class="project-description">
+              {{ project.shortDescription }}
+            </p>
+          </div>
+          <span *ngIf="project.iframe" class="pill">Embebido</span>
+        </div>
+        <div *ngIf="project.imageUrl" class="thumb">
+          <img [src]="project.imageUrl" [alt]="project.title + ' captura'" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="tech-chips" *ngIf="project.techStack">
+        <span class="chip" *ngFor="let tech of (project.techStack?.split(',') || [])">
+          {{ tech.trim() }}
+        </span>
+      </div>
+
+      <div class="project-footer">
+        <div class="links">
+          <a
+            *ngIf="project.githubUrl"
+            [href]="project.githubUrl"
+            target="_blank"
+            rel="noreferrer"
+            class="btn ghost"
+          >
+            Código
+          </a>
+          <a
+            *ngIf="project.demoUrl"
+            [href]="project.demoUrl"
+            target="_blank"
+            rel="noreferrer"
+            class="btn primary"
+          >
+            Ver demo
+          </a>
+        </div>
+        <span class="meta">Actualizado {{ project.updatedAt | date:'mediumDate' }}</span>
+      </div>
+    </article>
+  </div>
+</section>

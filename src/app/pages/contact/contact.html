@@ -1,0 +1,92 @@
+<section class="contact-page" id="contact">
+  <header class="page-header">
+    <p class="eyebrow">Contacto</p>
+    <h1>Hablemos</h1>
+    <p class="lede">
+      ¿Tienes una oportunidad, colaboración o quieres charlar sobre código e IA?
+      Estoy atento y respondo rápido.
+    </p>
+  </header>
+
+  <div class="contact-grid">
+    <div class="card" revealOnScroll [revealDirection]="'left'">
+      <h2>Canales directos</h2>
+      <ul>
+        <li>
+          <span>Correo</span>
+          <a href="mailto:brianvillanuevagonzalez@gmail.com">brianvillanuevagonzalez@gmail.com</a>
+        </li>
+        <li>
+          <span>Ubicación</span>
+          <p>Málaga · España</p>
+        </li>
+        <li>
+          <span>Disponibilidad</span>
+          <p>Proyectos junior · Prácticas · Colaboraciones</p>
+        </li>
+      </ul>
+      <button class="btn primary" type="button" (click)="toggleForm()">Escríbeme</button>
+    </div>
+
+    <div class="card" revealOnScroll="0.1s" [revealDirection]="'right'">
+      <h2>Mensaje rápido</h2>
+      <p class="muted">
+        Envíame un correo con un breve contexto, enlaces y tu disponibilidad.
+      </p>
+      <div class="tips">
+        <p>Incluye:</p>
+        <ul>
+          <li>Qué necesitas o la idea del proyecto.</li>
+          <li>Stack o tecnologías involucradas.</li>
+          <li>Plazos y disponibilidad para una llamada.</li>
+        </ul>
+      </div>
+      <button class="btn secondary" type="button" (click)="scrollToTop()">Volver al inicio</button>
+    </div>
+  </div>
+
+  <div class="card contact-form" *ngIf="showForm" revealOnScroll="0.05s">
+    <h2>Envíame un mensaje</h2>
+    <form (ngSubmit)="submit()" #formRef="ngForm">
+      <label>
+        Nombre
+        <input name="name" [(ngModel)]="form.name" required placeholder="Tu nombre" />
+      </label>
+      <label>
+        Email
+        <input type="email" name="email" [(ngModel)]="form.email" required placeholder="tu@mail.com" />
+      </label>
+      <label>
+        Asunto
+        <input name="subject" [(ngModel)]="form.subject" placeholder="Sobre qué quieres hablar" />
+      </label>
+      <label>
+        Mensaje
+        <textarea name="message" [(ngModel)]="form.message" rows="4" required placeholder="Cuéntame brevemente tu idea"></textarea>
+      </label>
+      <label>
+        Disponibilidad
+        <input name="availability" [(ngModel)]="form.availability" placeholder="Ej: esta semana, tardes" />
+      </label>
+      <div class="actions">
+        <button class="btn primary" type="submit">Enviar</button>
+        <button class="btn ghost" type="button" (click)="toggleForm()">Cerrar</button>
+      </div>
+    </form>
+    <p class="muted info">
+      El envío usará tu cliente de correo para completar los campos y que puedas revisarlo antes de enviar.
+    </p>
+  </div>
+
+  <div class="social-row" revealOnScroll="0.1s" [revealDirection]="'up'">
+    <a class="social-badge" href="https://github.com/BrianJavierVillanueva" target="_blank" rel="noreferrer" aria-label="GitHub">
+      <img class="gh-img" src="/proyectos/github.png" alt="GitHub" />
+    </a>
+    <a class="social-badge" href="https://www.linkedin.com/in/brian-javier-villanueva-gonz%C3%A1lez-45110a399/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+      <img src="/proyectos/linkdin.png" alt="LinkedIn" />
+    </a>
+    <a class="social-badge" href="mailto:brianvillanuevagonzalez@gmail.com" aria-label="Email">
+      <img src="/proyectos/mail.png" alt="Email" />
+    </a>
+  </div>
+</section>

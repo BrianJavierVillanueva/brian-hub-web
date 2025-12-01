@@ -1,0 +1,227 @@
+<section class="admin-page">
+  <header class="admin-header">
+    <div>
+      <p class="eyebrow">Panel admin</p>
+      <h1>Gestiona tu portfolio</h1>
+      <p class="lede">
+        Autentícate para crear, editar o despublicar proyectos. Usa las mismas
+        credenciales que configuraste en la API.
+      </p>
+    </div>
+    <span class="pill">/api/admin/projects</span>
+  </header>
+
+  <div class="auth-card">
+    <div class="field">
+      <label>Usuario</label>
+      <input type="text" [(ngModel)]="username" placeholder="admin" />
+    </div>
+    <div class="field">
+      <label>Contraseña</label>
+      <input type="password" [(ngModel)]="password" placeholder="••••••••" />
+    </div>
+    <button class="btn primary" (click)="connect()">Entrar</button>
+  </div>
+
+  <div *ngIf="authError" class="error-banner">{{ authError }}</div>
+
+  <div class="admin-grid">
+    <div class="card">
+      <div class="card-header">
+        <h2>{{ editingId ? 'Editar' : 'Crear nuevo' }}</h2>
+        <button class="btn ghost" type="button" (click)="resetForm()">Limpiar</button>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" class="form-grid">
+        <label>
+          Título
+          <input type="text" formControlName="title" placeholder="Título del proyecto" />
+        </label>
+
+        <label>
+          Descripción corta
+          <input type="text" formControlName="shortDescription" placeholder="Resumen breve" />
+        </label>
+
+        <label>
+          Descripción larga
+          <textarea rows="3" formControlName="longDescription" placeholder="Detalles opcionales"></textarea>
+        </label>
+
+        <label>
+          Tech stack (separado por comas)
+          <input type="text" formControlName="techStack" placeholder="Angular, Spring, PostgreSQL" />
+        </label>
+
+        <label>
+          GitHub URL
+          <input type="text" formControlName="githubUrl" placeholder="https://github.com/..." />
+        </label>
+
+        <label>
+          Demo URL
+          <input type="text" formControlName="demoUrl" placeholder="https://..." />
+        </label>
+
+        <label>
+          Imagen (captura)
+          <input type="text" formControlName="imageUrl" placeholder="https://.../screenshot.jpg" />
+        </label>
+
+        <div class="toggles">
+          <label class="toggle">
+            <input type="checkbox" formControlName="iframe" />
+            <span>Mostrar como iframe</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" formControlName="visible" />
+            <span>Visible en público</span>
+          </label>
+        </div>
+
+        <button class="btn primary" type="submit" [disabled]="saving">
+          {{ saving ? 'Guardando...' : (editingId ? 'Actualizar' : 'Crear') }}
+        </button>
+      </form>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Proyectos</h2>
+        <button class="btn ghost" (click)="loadProjects()" [disabled]="loading">Refrescar</button>
+      </div>
+
+      <div *ngIf="loading" class="muted">Cargando...</div>
+      <div *ngIf="!loading && projects.length === 0" class="muted">No hay proyectos aún.</div>
+
+      <div class="project-list">
+        <div class="project-row" *ngFor="let project of projects">
+          <div>
+            <strong>{{ project.title }}</strong>
+            <p class="muted">{{ project.shortDescription }}</p>
+            <div class="chips">
+              <span class="chip" *ngIf="project.visible">Visible</span>
+              <span class="chip ghost" *ngIf="!project.visible">Oculto</span>
+              <span class="chip ghost" *ngIf="project.iframe">Iframe</span>
+              <span class="chip" *ngIf="project.imageUrl">Con imagen</span>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn ghost" (click)="startEdit(project)">Editar</button>
+            <button class="btn danger" (click)="delete(project.id)">Borrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-grid">
+    <div class="card">
+      <div class="card-header">
+        <h2>{{ postEditingId ? 'Editar post' : 'Nuevo post' }}</h2>
+        <button class="btn ghost" type="button" (click)="resetPostForm()">Limpiar</button>
+      </div>
+
+      <form [formGroup]="postForm" (ngSubmit)="submitPost()" class="form-grid">
+        <label>
+          Título del post
+          <input type="text" formControlName="title" placeholder="Título" />
+        </label>
+
+        <label>
+          Slug
+          <input type="text" formControlName="slug" placeholder="mi-post-increible" />
+        </label>
+
+        <label>
+          Resumen corto
+          <input type="text" formControlName="shortDescription" placeholder="Resumen" />
+        </label>
+
+        <label>
+          Descripción larga
+          <textarea rows="3" formControlName="longDescription"></textarea>
+        </label>
+
+        <label>
+          Tech stack
+          <input type="text" formControlName="techStack" />
+        </label>
+
+        <label>
+          GitHub URL
+          <input type="text" formControlName="githubUrl" />
+        </label>
+
+        <label>
+          Demo URL
+          <input type="text" formControlName="demoUrl" />
+        </label>
+
+        <label>
+          Imagen
+          <input type="text" formControlName="imageUrl" />
+        </label>
+
+        <label>
+          Extracto
+          <textarea rows="2" formControlName="excerpt"></textarea>
+        </label>
+
+        <label>
+          Contenido
+          <textarea rows="4" formControlName="content" placeholder="Markdown o HTML"></textarea>
+        </label>
+
+        <div class="toggles">
+          <label class="toggle">
+            <input type="checkbox" formControlName="iframe" />
+            <span>Iframe</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" formControlName="visible" />
+            <span>Visible</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" formControlName="published" />
+            <span>Publicado</span>
+          </label>
+        </div>
+
+        <button class="btn primary" type="submit" [disabled]="postsSaving">
+          {{ postsSaving ? 'Guardando...' : (postEditingId ? 'Actualizar post' : 'Crear post') }}
+        </button>
+      </form>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Blog posts</h2>
+        <button class="btn ghost" (click)="loadPosts()" [disabled]="postsLoading">Refrescar</button>
+      </div>
+
+      <div *ngIf="postsError" class="error-banner">{{ postsError }}</div>
+      <div *ngIf="postsLoading" class="muted">Cargando...</div>
+      <div *ngIf="!postsLoading && posts.length === 0" class="muted">No hay posts.</div>
+
+      <div class="project-list">
+        <div class="project-row" *ngFor="let post of posts">
+          <div>
+            <strong>{{ post.title }}</strong>
+            <p class="muted">/{{ post.slug }}</p>
+            <div class="chips">
+              <span class="chip" *ngIf="post.published">Publicado</span>
+              <span class="chip ghost" *ngIf="!post.published">Borrador</span>
+              <span class="chip" *ngIf="post.visible">Visible</span>
+              <span class="chip ghost" *ngIf="!post.visible">Oculto</span>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn ghost" (click)="startEditPost(post)">Editar</button>
+            <button class="btn danger" (click)="deletePost(post.id)">Borrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
