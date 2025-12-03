@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://<tu-api>.railway.app/api',
+  apiUrl: 'https://brian-hub-api-production.up.railway.app/api',
 };
