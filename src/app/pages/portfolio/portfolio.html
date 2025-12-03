@@ -26,6 +26,9 @@
       [revealDirection]="i % 2 === 0 ? 'left' : 'right'"
     >
       <div class="top-row">
+        <div *ngIf="project.imageUrl" class="thumb">
+          <img [src]="project.imageUrl" [alt]="project.title + ' captura'" loading="lazy" />
+        </div>
         <div class="project-header">
           <div>
             <h2>{{ project.title }}</h2>
@@ -34,9 +37,6 @@
             </p>
           </div>
           <span *ngIf="project.iframe" class="pill">Embebido</span>
-        </div>
-        <div *ngIf="project.imageUrl" class="thumb">
-          <img [src]="project.imageUrl" [alt]="project.title + ' captura'" loading="lazy" />
         </div>
       </div>
 
