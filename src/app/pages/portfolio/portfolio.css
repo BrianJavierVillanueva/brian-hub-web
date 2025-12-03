@@ -78,14 +78,14 @@
 
 .top-row {
   display: flex;
-  gap: 0.9rem;
+  gap: 1.2rem;
   align-items: flex-start;
   justify-content: space-between;
 }
 
 .thumb img {
-  width: 160px;
-  height: 100px;
+  width: 280px;
+  height: 180px;
   object-fit: cover;
   border-radius: 12px;
   border: 1px solid var(--border);
